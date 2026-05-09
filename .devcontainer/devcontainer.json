@@ -1,0 +1,27 @@
+{
+    "name": "lazer",
+    "build": {
+        "dockerfile": "Dockerfile"
+    },
+    "workspaceFolder": "/workspaces/code",
+    "postCreateCommand": "bash /workspaces/code/.devcontainer/build.sh",
+    "remoteEnv": {
+        "LD_LIBRARY_PATH": "/workspaces/code/lazer",
+        "PYTHONPATH": "/workspaces/code/lazer/python"
+    },
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "ms-python.python",
+                "ms-vscode.cpptools"
+            ],
+            "settings": {
+                "python.defaultInterpreterPath": "/opt/miniforge/envs/lazer/bin/python3",
+                "python.condaPath": "/opt/miniforge/bin/conda",
+                "python.analysis.extraPaths": [
+                    "/workspaces/code/lazer/python"
+                ]
+            }
+        }
+    }
+}
