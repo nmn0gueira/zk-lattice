@@ -24,5 +24,6 @@ if [ ! -f "${HEXL_BUILD}/lib64/libhexl.a" ]; then
     fi
 fi
 
-make -j"$(nproc)"
+LAZER_MAKE_TARGET=$([ "${LAZER_AVX512:-0}" = "1" ] && echo "all" || echo "")
+make ${LAZER_MAKE_TARGET} -j"$(nproc)"
 cd python && make

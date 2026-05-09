@@ -15,6 +15,9 @@ Build the image and lazer library:
 ```bash
 docker build -t zk-lattice .
 docker run --rm -v $(pwd):/workspaces/code zk-lattice bash /workspaces/code/build.sh
+
+# With AVX-512 support (requires a compatible CPU):
+docker run --rm -v $(pwd):/workspaces/code -e LAZER_AVX512=1 zk-lattice bash /workspaces/code/build.sh
 ```
 
 Then open an interactive shell to explore:
