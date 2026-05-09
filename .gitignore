@@ -1,2 +1,4 @@
 *_params_cffi*
 .vscode/
+
+*_pycache_*
