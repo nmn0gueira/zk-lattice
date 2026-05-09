@@ -1,14 +1,10 @@
 {
     "name": "lazer",
     "build": {
-        "dockerfile": "Dockerfile"
+        "dockerfile": "../Dockerfile"
     },
     "workspaceFolder": "/workspaces/code",
-    "postCreateCommand": "bash /workspaces/code/.devcontainer/build.sh",
-    "remoteEnv": {
-        "LD_LIBRARY_PATH": "/workspaces/code/lazer",
-        "PYTHONPATH": "/workspaces/code/lazer/python"
-    },
+    "postCreateCommand": "bash /workspaces/code/build.sh",
     "customizations": {
         "vscode": {
             "extensions": [
