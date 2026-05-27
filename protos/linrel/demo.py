@@ -28,6 +28,7 @@ def main():
 
     print("generating proof ...")
     proof = prover.prove()
+    print(f"Proof size: {len(proof)} bytes")
     print_stopwatch_lnp_prover_prove(0)
 
     verifier.set_statement(A, t)

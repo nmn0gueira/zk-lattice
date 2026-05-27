@@ -1,4 +1,4 @@
-.PHONY: all run clean
+.PHONY: all run run-labrador clean
 
 LAZER_DIR  = ../../lazer
 SCRIPTS    = $(LAZER_DIR)/scripts
@@ -17,6 +17,9 @@ $(PYTHON_DIR)/_lazer_cffi.o:
 
 run: all
 	python3 demo.py
+
+run-labrador: all
+	python3 demo_labrador.py
 
 clean:
 	rm -rf __pycache__
