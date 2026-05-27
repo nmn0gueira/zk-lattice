@@ -31,9 +31,10 @@ docker run --rm -it -v $(pwd):/workspaces/code -w /workspaces/code zk-lattice ba
 Each protocol lives under `protos/<name>/` with its own `Makefile`.
 
 ```bash
-cd protos/linrel  && make run           # linear relation demo
-cd protos/leopard && make run           # LeoPaRd NIZKs (ternary witnesses)
-cd protos/leopard && make run-gaussian  # LeoPaRd NIZKs (Gaussian witnesses)
+cd protos/linrel   && make run           # linear relation demo (lin_prover, d=256)
+cd protos/linrel   && make run-labrador  # same relation with LaBRADOR (d=64, requires AVX-512 build)
+cd protos/leopard  && make run           # LeoPaRd NIZKs (ternary witnesses)
+cd protos/leopard  && make run-gaussian  # LeoPaRd NIZKs (Gaussian witnesses)
 ```
 
 ## Adding a new protocol

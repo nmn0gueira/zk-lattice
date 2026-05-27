@@ -10,20 +10,20 @@ from _client_nizk_params_cffi import lib as client_lib
 from _server_nizk_params_cffi import lib as server_lib
 
 # LeoPaRd parameters (Table 3, kappa=16, 128-bit security)
-D   = 64            # ring degree d
-Q   = 2199023255579 # 42-bit prime, log q=42
-M   = 24            # key dimension m = n_s
-L   = 27            # client MLWE dimension ell = n_c
-N   = M + L         # MLWE samples N = m + ell = 51 (paper page 29)
-H   = 1             # number of output rows h
+D = 64            # ring degree d
+Q = 2199023255579 # 42-bit prime, log q=42
+M = 24            # key dimension m = n_s
+L = 27            # client MLWE dimension ell = n_c
+N = M + L         # MLWE samples N = m + ell = 51 (paper page 29)
+H = 1             # number of output rows h
 
-SEED_Ar  = b'\x01' * 32  # mocks RO_r (Fig. 8 F.PreProcServer, derives A_r from c_r)
-SEED_Bx  = b'\x02' * 32  # mocks H(x,t) (Fig. 9 F.Request line 5)
-SEED_K   = b'\x03' * 32  # server key k
-SEED_ES  = b'\x04' * 32  # server MLWE error e_s
-SEED_R   = b'\x05' * 32  # client randomness R (chi_r = U(S_{beta_r}), beta_r=1)
+SEED_Ar = b'\x01' * 32  # mocks RO_r (Fig. 8 F.PreProcServer, derives A_r from c_r)
+SEED_Bx = b'\x02' * 32  # mocks H(x,t) (Fig. 9 F.Request line 5)
+SEED_K  = b'\x03' * 32  # server key k
+SEED_ES = b'\x04' * 32  # server MLWE error e_s
+SEED_R = b'\x05' * 32  # client randomness R (chi_r = U(S_{beta_r}), beta_r=1)
 SEED_EPS = b'\x06' * 32  # server eval error e'_s
-SEED_PRF = b'\x00' * 32  # seed for proof randomness (same for both proofs — demo only)
+SEED_PRF = b'\x00' * 32  # seed for proof randomness
 
 Rq = polyring_t(D, Q)
 
