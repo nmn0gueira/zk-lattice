@@ -1,15 +1,20 @@
 #!/usr/bin/env bash
 set -e
 
+# TODO: Remove these adds and make script docker-agnostic
+git config --global --add safe.directory /workspaces/code
+git config --global --add safe.directory /workspaces/code/lazer
+git config --global --add safe.directory /workspaces/code/lazer/src/labrador
+
 git -C /workspaces/code submodule update --init 2>/dev/null || true
 
 cd /workspaces/code/lazer
 
 # labrador's .gitmodules entry uses SSH. We rewrite to HTTPS so Docker doesn't prompt for credentials.
-git config submodule.src/labrador.url https://github.com/lattice-dogs/labrador
+git -C /workspaces/code/lazer config submodule.src/labrador.url https://github.com/lattice-dogs/labrador 2>/dev/null || true
+git -C /workspaces/code/lazer submodule update --init src/labrador 2>/dev/null || true
 
-# First pass unpacks Falcon/HEXL and runs cmake for HEXL.
-# MAKEFLAGS cleared to avoid inheriting the outer jobserver FIFO (absent in Docker).
+
 MAKEFLAGS= make || true
 
 # cmake puts libhexl.a in lib/ on Debian but the Makefile expects lib64/.
