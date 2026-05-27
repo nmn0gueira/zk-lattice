@@ -1,4 +1,4 @@
-.PHONY: all run run-gaussian clean
+.PHONY: all run run-gaussian run-labrador clean
 
 LAZER_DIR  = ../../lazer
 SCRIPTS    = $(LAZER_DIR)/scripts
@@ -32,6 +32,9 @@ run: all
 
 run-gaussian: all
 	python3 nizks_gaussian.py
+
+run-labrador: all
+	python3 nizks_labrador.py
 
 clean:
 	rm -rf __pycache__
