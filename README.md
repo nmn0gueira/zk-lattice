@@ -4,26 +4,27 @@ Lattice-based zero-knowledge proof prototypes built on the [lazer](https://githu
 
 ## Setup
 
+### Docker
+
+```bash
+git clone --recurse-submodules https://github.com/nmn0gueira/zk-lattice.git
+cd zk-lattice
+docker build -t zk-lattice .
+docker run -it zk-lattice bash
+```
+
+For AVX-512 support (requires a compatible CPU):
+
+```bash
+docker build --build-arg LAZER_AVX512=1 -t zk-lattice .
+```
+
+### Native (Linux)
+
 ```bash
 git clone https://github.com/nmn0gueira/zk-lattice.git
 cd zk-lattice
-git submodule update --init
-```
-
-Build the image and lazer library:
-
-```bash
-docker build -t zk-lattice .
-docker run --rm -v $(pwd):/workspaces/code zk-lattice bash /workspaces/code/build.sh
-
-# With AVX-512 support (requires a compatible CPU):
-docker run --rm -v $(pwd):/workspaces/code -e LAZER_AVX512=1 zk-lattice bash /workspaces/code/build.sh
-```
-
-Then open an interactive shell to explore:
-
-```bash
-docker run --rm -it -v $(pwd):/workspaces/code -w /workspaces/code zk-lattice bash
+bash build.sh
 ```
 
 ## Running
