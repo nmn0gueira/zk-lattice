@@ -10,9 +10,7 @@ git -C /workspaces/code submodule update --init 2>/dev/null || true
 
 cd /workspaces/code/lazer
 
-# labrador's .gitmodules entry uses SSH. We rewrite to HTTPS so Docker doesn't prompt for credentials.
-git -C /workspaces/code/lazer config submodule.src/labrador.url https://github.com/lattice-dogs/labrador 2>/dev/null || true
-git -C /workspaces/code/lazer submodule update --init src/labrador 2>/dev/null || true
+git -C /workspaces/code/lazer submodule update --init src/labrados 2>/dev/null || true
 
 
 MAKEFLAGS= make || true
