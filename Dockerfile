@@ -1,4 +1,4 @@
-FROM ubuntu:24.04
+FROM ubuntu:24.04 AS env
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV PATH="/opt/miniforge/envs/lazer/bin:/opt/miniforge/bin:${PATH}"
@@ -28,5 +28,13 @@ RUN /opt/miniforge/bin/mamba create -y -n lazer \
     sphinxcontrib-bibtex
 
 # mpmath 1.4.x breaks sage 10.2: strict gmpy2.mpz assertion fails for sage integers.
-# Pin to 1.3.0 which uses Python int (compatible).
 RUN /opt/miniforge/envs/lazer/bin/pip install --force-reinstall "mpmath==1.3.0"
+
+FROM env AS dist
+
+COPY . /app/
+
+ARG LAZER_AVX512=0
+RUN LAZER_AVX512=${LAZER_AVX512} bash /app/build.sh
+
+WORKDIR /app

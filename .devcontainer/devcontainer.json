@@ -1,7 +1,8 @@
 {
     "name": "lazer",
     "build": {
-        "dockerfile": "../Dockerfile"
+        "dockerfile": "../Dockerfile",
+        "target": "env"
     },
     "workspaceFolder": "/workspaces/code",
     "postCreateCommand": "bash /workspaces/code/build.sh",

@@ -1,16 +1,13 @@
 #!/usr/bin/env bash
 set -e
 
-# TODO: Remove these adds and make script docker-agnostic
-git config --global --add safe.directory /workspaces/code
-git config --global --add safe.directory /workspaces/code/lazer
-git config --global --add safe.directory /workspaces/code/lazer/src/labrador
+REPO_DIR="$(cd "$(dirname "$0")" && pwd)"
 
-git -C /workspaces/code submodule update --init 2>/dev/null || true
+git -C "${REPO_DIR}" submodule update --init 2>/dev/null || true
 
-cd /workspaces/code/lazer
+cd "${REPO_DIR}/lazer"
 
-git -C /workspaces/code/lazer submodule update --init src/labrados 2>/dev/null || true
+git -C "${REPO_DIR}/lazer" submodule update --init src/labrados 2>/dev/null || true
 
 
 MAKEFLAGS= make || true
@@ -27,6 +24,6 @@ if [ ! -f "${HEXL_BUILD}/lib64/libhexl.a" ]; then
     fi
 fi
 
-LAZER_MAKE_TARGET=$([ "${LAZER_AVX512:-0}" = "1" ] && echo "all" || echo "")
+LAZER_MAKE_TARGET=$([ "${LAZER_AVX512:-0}" = "1" ] && echo "all" || echo "liblazer.so liblazer.a")
 make ${LAZER_MAKE_TARGET} -j"$(nproc)"
 cd python && make
