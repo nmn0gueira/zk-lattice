@@ -2,7 +2,7 @@ import sys
 sys.path.insert(0, '../../lazer/python')
 
 from lazer import polymat_t, polyvec_t
-from labrador import proof_statement, pack_verify, LAB_RING_32
+from labrados import proof_statement, pack_verify, LAB_RING_32
 
 # LaBRADOR is hardcoded to d=64; use LAB_RING_32 (d=64, ~32-bit prime).
 # Same relation as demo.py: prove knowledge of binary s s.t. A*s = t,
