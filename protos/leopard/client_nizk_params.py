@@ -1,16 +1,16 @@
 from math import sqrt
 
-# Client NIZK (pi_c): A_r^T * r + (B_x - C_x) = 0  (Fig. 10, Table 3, kappa=16)
-# r is the single row of R, treated as a column vector of N=51 polys.
+# Combined client NIZK (pi_c + pi_hash, Fig. 10, Table 3, kappa=16):
+#   [A_r^T | A_H] * [r; x] + (-C_x) = 0
+# Witness [r (N=51) | x (M_H=51)] stacked as one ternary partition.
 
 vname = "client_param"
 
 deg   = 64            # ring degree d (Table 3)
 mod   = 2199023255579 # 42-bit prime; log q=42 (Table 3)
-dim   = (24, 51)      # A_r^T is m x N = 24 x 51
+dim   = (24, 102)     # M rows, N+M_H cols
 
-# r ~ chi_r = U(S_1): ternary, beta_r=1 (Table 3)
-wpart = [list(range(51))]
-wl2   = [sqrt(51 * 64)]  # sqrt(N*d): L2 bound for ternary witness
+wpart = [list(range(102))]
+wl2   = [sqrt(102 * 64)]
 wbin  = [0]
 wlinf = 1

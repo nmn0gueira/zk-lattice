@@ -16,9 +16,11 @@ M = 24            # key dimension m = n_s
 L = 27            # client MLWE dimension ell = n_c
 N = M + L         # MLWE samples N = m + ell = 51 (paper page 29)
 H = 1             # number of output rows h
+M_H = N           # hash input dimension
 
 SEED_Ar = b'\x01' * 32  # mocks RO_r (Fig. 8 F.PreProcServer, derives A_r from c_r)
-SEED_Bx = b'\x02' * 32  # mocks H(x,t) (Fig. 9 F.Request line 5)
+SEED_AH = b'\x07' * 32  # public matrix
+SEED_X  = b'\x08' * 32  # private hash input x
 SEED_K  = b'\x03' * 32  # server key k
 SEED_ES = b'\x04' * 32  # server MLWE error e_s
 SEED_R = b'\x05' * 32  # client randomness R (chi_r = U(S_{beta_r}), beta_r=1)
@@ -34,11 +36,15 @@ def setup_protocol_state():
     A_r = polymat_t(Rq, N, M)
     A_r.urandom(Q, SEED_Ar, 0)
 
-    # B_x ~ U(R_q^(h x m)): mocks H(x,t) (Fig. 9 F.Request line 5)
-    # polyvec_t lacks urandom; sample as 1×M matrix and extract the row.
-    _B_x_mat = polymat_t(Rq, 1, M)
-    _B_x_mat.urandom(Q, SEED_Bx, 0)
-    B_x_row = _B_x_mat.get_row(0)
+    # A_H ~ U(R_q^(M x M_H)): public matrix
+    A_H = polymat_t(Rq, M, M_H)
+    A_H.urandom(Q, SEED_AH, 0)
+
+    # x ~ U(S_1): ternary private hash input (Fig. 9 F.Request line 5)
+    x = polyvec_t(Rq, M_H)
+    x.urandom_bnd(-1, 1, SEED_X, 0)
+
+    B_x_row = A_H * x  # Ajtai hash evaluation: B_x = A_H * x
 
     # k ~ binary (demo simplification of D_s, s=21.5): server key (Fig. 8 F.KeyGen)
     k = polyvec_t(Rq, M)
@@ -66,23 +72,35 @@ def setup_protocol_state():
         C_x_mat.set_elem(C_x_vec[j], 0, j)
     u_x = C_x_mat * k + e_prime_s  # Fig. 9 F.BlindEval line 9
 
-    return A_r, A_r_T, B_x_row, C_x_vec, C_x_mat, k, e_s, v_k, r_row, e_prime_s, u_x
+    return A_r, A_r_T, A_H, x, B_x_row, C_x_vec, C_x_mat, k, e_s, v_k, r_row, e_prime_s, u_x
 
 
-def run_client_nizk(A_r_T, r_row, B_x_row, C_x_vec):
+def run_client_nizk(A_r_T, A_H, r_row, x, C_x_vec):
     """
-    Client NIZK (pi_c): prove knowledge of r s.t. A_r^T * r + (B_x - C_x) = 0
+    Client NIZK (pi_c): [A_r^T | A_H] * [r; x] + (-C_x) = 0
     (Figure 10 of paper)
     """
     params = client_lib.get_params("client_param")
-    prover   = lin_prover_state_t(SEED_PRF, params)
+    prover = lin_prover_state_t(SEED_PRF, params)
     verifier = lin_verifier_state_t(SEED_PRF, params)
 
-    A_lin = A_r_T
-    t = B_x_row - C_x_vec
+    A_lin = polymat_t(Rq, M, N + M_H)
+    for i in range(M):
+        for j in range(N):
+            A_lin.set_elem(A_r_T.get_elem(i, j), i, j)
+        for j in range(M_H):
+            A_lin.set_elem(A_H.get_elem(i, j), i, N + j)
+
+    w = polyvec_t(Rq, N + M_H)
+    for i in range(N):
+        w[i] = r_row[i]
+    for i in range(M_H):
+        w[N + i] = x[i]
+
+    t = -C_x_vec
 
     prover.set_statement(A_lin, t)
-    prover.set_witness(r_row)
+    prover.set_witness(w)
 
     t0 = time.perf_counter()
     proof = prover.prove()
@@ -175,14 +193,14 @@ def main():
     print()
 
     print("Setting up fake protocol state (Figures 8 and 9)...")
-    A_r, A_r_T, B_x_row, C_x_vec, C_x_mat, k, e_s, v_k, r_row, e_prime_s, u_x = \
+    A_r, A_r_T, A_H, x, B_x_row, C_x_vec, C_x_mat, k, e_s, v_k, r_row, e_prime_s, u_x = \
         setup_protocol_state()
     print("Done.\n")
 
     print("--- Client NIZK (pi_c, Figure 10) ---")
-    print("Relation: A_r^T * r + (B_x - C_x) = 0")
+    print("Relation: [A_r^T | A_H] * [r; x] + (-C_x) = 0")
     result_c, size_c, t_prove_c, t_verify_c = run_client_nizk(
-        A_r_T, r_row, B_x_row, C_x_vec)
+        A_r_T, A_H, r_row, x, C_x_vec)
     print(f"Result:   {result_c}")
     print(f"Proof size: {size_c} bytes")
     print(f"Prove:    {t_prove_c:.3f} s")
