@@ -10,7 +10,7 @@ cd "${REPO_DIR}/lazer"
 git -C "${REPO_DIR}/lazer" submodule update --init src/labrados 2>/dev/null || true
 
 
-make liblazer.so liblazer.a -j"$(nproc)"
+make liblazer.so liblazer.a
 
 if [ "${LAZER_AVX512:-0}" = "1" ]; then
     HEXL_BUILD=third_party/hexl-development/build/hexl
