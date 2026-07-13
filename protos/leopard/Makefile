@@ -27,7 +27,7 @@ server_nizk_gaussian_params.h: server_nizk_gaussian_params.py
 $(PYTHON_DIR)/_lazer_cffi.o:
 	cd $(PYTHON_DIR) && make
 
-run: all
+run: _client_nizk_params_cffi.o _server_nizk_params_cffi.o
 	python3 nizks.py
 
 run-gaussian: all
