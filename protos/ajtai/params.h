@@ -127,8 +127,8 @@ static const unsigned int param_Es_nrows[1] = {51};
 
 static const limb_t param_p_limbs[] = {2199023255579UL};
 static const int_t param_p = {{(limb_t *)param_p_limbs, 1, 0}};
-static const limb_t param_pinv_limbs[] = {9593674919057203235UL};
-static const int_t param_pinv = {{(limb_t *)param_pinv_limbs, 1, 0}};
+static const limb_t param_pinv_limbs[] = {9593674919057203235UL, 0UL};
+static const int_t param_pinv = {{(limb_t *)param_pinv_limbs, 2, 0}};
 static const unsigned int param_s1_indices[51] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50};
 static const lin_params_t param = {{ _param, 64, param_p, param_pinv, 1, param_s1_indices, 51, NULL, 0,  NULL, 0, param_Es, param_Es_nrows, NULL, NULL }};
 
