@@ -127,8 +127,8 @@ static const unsigned int client_param_Es_nrows[1] = {102};
 
 static const limb_t client_param_p_limbs[] = {2199023255579UL};
 static const int_t client_param_p = {{(limb_t *)client_param_p_limbs, 1, 0}};
-static const limb_t client_param_pinv_limbs[] = {15092058693928518123UL};
-static const int_t client_param_pinv = {{(limb_t *)client_param_pinv_limbs, 1, 0}};
+static const limb_t client_param_pinv_limbs[] = {15092058693928518123UL, 0UL};
+static const int_t client_param_pinv = {{(limb_t *)client_param_pinv_limbs, 2, 0}};
 static const unsigned int client_param_s1_indices[102] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101};
 static const lin_params_t client_param = {{ _client_param, 64, client_param_p, client_param_pinv, 1, client_param_s1_indices, 102, NULL, 0,  NULL, 0, client_param_Es, client_param_Es_nrows, NULL, NULL }};
 

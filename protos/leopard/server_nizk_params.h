@@ -133,8 +133,8 @@ static const unsigned int server_param_Es_nrows[3] = {24, 51, 1};
 
 static const limb_t server_param_p_limbs[] = {2199023255579UL};
 static const int_t server_param_p = {{(limb_t *)server_param_p_limbs, 1, 0}};
-static const limb_t server_param_pinv_limbs[] = {9593674919057203235UL};
-static const int_t server_param_pinv = {{(limb_t *)server_param_pinv_limbs, 1, 0}};
+static const limb_t server_param_pinv_limbs[] = {9593674919057203235UL, 0UL};
+static const int_t server_param_pinv = {{(limb_t *)server_param_pinv_limbs, 2, 0}};
 static const unsigned int server_param_s1_indices[76] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75};
 static const lin_params_t server_param = {{ _server_param, 64, server_param_p, server_param_pinv, 1, server_param_s1_indices, 76, NULL, 0,  NULL, 0, server_param_Es, server_param_Es_nrows, NULL, NULL }};
 
